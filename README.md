@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +14,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             overflow: hidden;
+            margin: 0;
         }
         .proposal {
             background: white;
@@ -21,6 +23,7 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             position: relative;
             z-index: 2;
+            transition: opacity 1s ease;
         }
         .heart {
             color: red;
@@ -61,25 +64,37 @@
         }
     </style>
     <script>
+        let noButtonPressCount = 0;  // Initialize a counter for the "No" button presses
+
         function acceptProposal() {
             document.getElementById('message').innerHTML = "Do you want to go to the movies together? 🎬❤️";
             document.getElementById('buttons').innerHTML = '<button class="yes" onclick="movieYes()">Yes!</button> <button class="no" onclick="movieNo()">No</button>';
         }
+
         function movieYes() {
             document.getElementById('message').innerHTML = "Yay! We will have so much fun! 🌹";
             document.getElementById('buttons').innerHTML = '<button class="yes" onclick="msgMe()">Message Me!</button>';
             startRoses();
         }
+
         function movieNo() {
-            document.getElementById('message').innerHTML = "Why? I just wanted to spend time with you. 😢";
-            startCryingEmojis();
-            setTimeout(() => {
-                window.location.href = "https://www.romantic-messages.com";
-            }, 3000);
+            noButtonPressCount++;  // Increment the counter when "No" is pressed
+            if (noButtonPressCount >= 3) {
+                // If the "No" button is pressed 3 times, redirect to the YouTube link
+                window.location.href = "https://youtu.be/4yZ-mn0u8NE?si=CMCoA8JxIemk_Byc";
+            } else {
+                document.getElementById('message').innerHTML = "Why? I just wanted to spend time with you. 😢";
+                startCryingEmojis();
+                setTimeout(() => {
+                    window.location.href = "https://www.romantic-messages.com";  // Keep this redirection in case the user presses once or twice
+                }, 3000);
+            }
         }
+
         function msgMe() {
             window.location.href = "https://www.instagram.com/aviyanskshrestha/";
         }
+
         function startCryingEmojis() {
             for (let i = 0; i < 10; i++) {
                 let emoji = document.createElement('div');
@@ -90,6 +105,7 @@
                 document.body.appendChild(emoji);
             }
         }
+
         function startRoses() {
             for (let i = 0; i < 20; i++) {
                 let rose = document.createElement('div');
@@ -100,6 +116,7 @@
                 document.body.appendChild(rose);
             }
         }
+
         function moveButton() {
             let btn = document.getElementById('noBtn');
             let x = Math.random() * (window.innerWidth - 100);
